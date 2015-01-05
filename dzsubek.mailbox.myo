@@ -3,7 +3,8 @@ scriptTitle = "Mailbox app connectot"
 scriptDetailsUrl = "http://myo.dzsubek.hu/mailbox"
 
 function onForegroundWindowChange(app, title)
-    return platform == "MacOS" and app == "com.dropbox.mbd.external-beta"
+    local isMailbox = platform == "MacOS" and app == "com.dropbox.mbd.external-beta"
+    return isMailbox
 end
 
 function activeAppName()
@@ -23,6 +24,13 @@ function onPoseEdge(pose, edge)
     	archive()
     end
     if pose == "waveOut" and edge == "on" then
-    	delete()
+       	delete()
     end
+    if pose == "doubleTap" and edge == "on" then
+        myo.lock()
+    end
+end
+
+function onUnlock()
+    myo.unlock("hold")
 end
