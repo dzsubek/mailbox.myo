@@ -1,0 +1,28 @@
+scriptId = 'hu.dzsubek.myo.mailbox'
+scriptTitle = "Mailbox app connectot"
+scriptDetailsUrl = "http://myo.dzsubek.hu/mailbox"
+
+function onForegroundWindowChange(app, title)
+    return platform == "MacOS" and app == "com.dropbox.mbd.external-beta"
+end
+
+function activeAppName()
+    return "Mailbox (Beta)"
+end
+
+function archive()
+	myo.keyboard("return", "press")
+end
+
+function delete()
+	myo.keyboard("backspace", "press")
+end
+
+function onPoseEdge(pose, edge)
+    if pose == "waveIn" and edge == "on" then
+    	archive()
+    end
+    if pose == "waveOut" and edge == "on" then
+    	delete()
+    end
+end
