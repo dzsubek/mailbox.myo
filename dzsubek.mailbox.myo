@@ -19,13 +19,28 @@ function delete()
 	myo.keyboard("backspace", "press")
 end
 
+function conditionallySwapWave(pose)
+    if myo.getArm() == "left" then
+        if pose == "waveIn" then
+            pose = "waveOut"
+        elseif pose == "waveOut" then
+            pose = "waveIn"
+        end
+    end
+    return pose
+end
+
 function onPoseEdge(pose, edge)
-    if pose == "waveIn" and edge == "on" then
-    	archive()
+    if (pose == "waveIn" or pose == "waveOut") and edge == "on" then
+        pose = conditionallySwapWave(pose)
+        if pose == "waveIn" and edge == "on" then
+            archive()
+        end
+        if pose == "waveOut" and edge == "on" then
+            delete()
+        end
     end
-    if pose == "waveOut" and edge == "on" then
-       	delete()
-    end
+
     if pose == "doubleTap" and edge == "on" then
         myo.lock()
     end
